@@ -172,7 +172,9 @@
     background-image:
       radial-gradient(oklch(0.85 0.055 198.7 / 16%) 1px, transparent 1px),
       linear-gradient(135deg, var(--night), oklch(0.19 0.036 207.3) 45%, var(--deep));
-    background-size: 28px 28px, auto;
+    background-size:
+      28px 28px,
+      auto;
     min-width: 320px;
     min-height: 100vh;
     overflow-x: hidden;
@@ -188,7 +190,9 @@
 @utility pixel-title {
   font-size: clamp(22px, 8vw, 40px);
   line-height: 1.25;
-  text-shadow: 3px 3px 0 var(--ridge), 6px 6px 0 var(--deep);
+  text-shadow:
+    3px 3px 0 var(--ridge),
+    6px 6px 0 var(--deep);
 }
 
 @utility guild-gate {
@@ -213,7 +217,9 @@
 @utility pixel-button {
   border-radius: 0;
   cursor: pointer;
-  transition: transform 60ms linear, box-shadow 60ms linear;
+  transition:
+    transform 60ms linear,
+    box-shadow 60ms linear;
 
   &:active {
     transform: translateY(4px);
@@ -230,7 +236,9 @@
 @utility pixel-button-secondary {
   color: var(--frost);
   background-color: transparent;
-  box-shadow: inset 0 0 0 2px var(--frost), 0 4px 0 oklch(0.85 0.055 198.7 / 35%);
+  box-shadow:
+    inset 0 0 0 2px var(--frost),
+    0 4px 0 oklch(0.85 0.055 198.7 / 35%);
 }
 
 @utility torch {

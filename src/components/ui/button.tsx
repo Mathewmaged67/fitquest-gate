@@ -15,8 +15,10 @@ export const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        fitquest: "pixel-button pixel-button-primary min-h-12 px-4 py-3 text-[11px] leading-[1.5] font-normal focus-visible:ring-0 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-frost",
-        "fitquest-secondary": "pixel-button pixel-button-secondary min-h-12 px-4 py-3 text-[11px] leading-[1.5] font-normal focus-visible:ring-0 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-frost",
+        fitquest:
+          "pixel-button pixel-button-primary min-h-12 px-4 py-3 text-[11px] leading-[1.5] font-normal focus-visible:ring-0 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-frost",
+        "fitquest-secondary":
+          "pixel-button pixel-button-secondary min-h-12 px-4 py-3 text-[11px] leading-[1.5] font-normal focus-visible:ring-0 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-frost",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -34,8 +36,8 @@ export const buttonVariants = cva(
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants> & {
-  asChild?: boolean;
-};
+    asChild?: boolean;
+  };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ asChild = false, className, size, type = "button", variant, ...props }, ref) => {

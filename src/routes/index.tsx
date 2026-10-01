@@ -20,20 +20,38 @@ const installSteps = [
 ] as const;
 
 const features = [
-  { title: "Train", text: "Every set you log pays XP, gold, and stats.", accent: "border-strength text-strength" },
-  { title: "Eat", text: "Log meals, hit your macros, and gain vitality.", accent: "border-vitality text-vitality" },
-  { title: "Quest", text: "Daily, weekly, and epic objectives to claim.", accent: "border-agility text-agility" },
-  { title: "Loot", text: "Class gear sets and potion buffs for your next session.", accent: "border-stamina text-stamina" },
+  {
+    title: "Train",
+    text: "Every set you log pays XP, gold, and stats.",
+    accent: "border-strength text-strength",
+  },
+  {
+    title: "Eat",
+    text: "Log meals, hit your macros, and gain vitality.",
+    accent: "border-vitality text-vitality",
+  },
+  {
+    title: "Quest",
+    text: "Daily, weekly, and epic objectives to claim.",
+    accent: "border-agility text-agility",
+  },
+  {
+    title: "Loot",
+    text: "Class gear sets and potion buffs for your next session.",
+    accent: "border-stamina text-stamina",
+  },
 ] as const;
 
 const questions = [
   {
     question: "Why not Google Play?",
-    answer: "FitQuest is an indie project and is not on the store yet. Sharing the app directly gets it to you sooner.",
+    answer:
+      "FitQuest is an indie project and is not on the store yet. Sharing the app directly gets it to you sooner.",
   },
   {
     question: "Why does Android show a warning?",
-    answer: "Android warns about any app installed outside the store. Check the checksum above if you want to be sure.",
+    answer:
+      "Android warns about any app installed outside the store. Check the checksum above if you want to be sure.",
   },
   {
     question: "Will it update itself?",
@@ -45,10 +63,16 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "FitQuest: download the app" },
-      { name: "description", content: "Download FitQuest for Android and turn every workout into a pixel-art RPG quest." },
+      {
+        name: "description",
+        content: "Download FitQuest for Android and turn every workout into a pixel-art RPG quest.",
+      },
       { name: "theme-color", content: "#002029" },
       { property: "og:title", content: "FitQuest: download the app" },
-      { property: "og:description", content: "Download FitQuest for Android and turn every workout into a pixel-art RPG quest." },
+      {
+        property: "og:description",
+        content: "Download FitQuest for Android and turn every workout into a pixel-art RPG quest.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -116,7 +140,10 @@ function Index() {
   return (
     <main className="min-h-screen overflow-x-hidden px-4 py-8 sm:py-12">
       <div className="mx-auto w-full max-w-[720px]">
-        <section className="guild-gate relative px-5 py-12 text-center sm:px-10 sm:py-14" aria-labelledby="fitquest-title">
+        <section
+          className="guild-gate relative px-5 py-12 text-center sm:px-10 sm:py-14"
+          aria-labelledby="fitquest-title"
+        >
           <span className="rivet left-2 top-2" aria-hidden="true" />
           <span className="rivet right-2 top-2" aria-hidden="true" />
           <span className="rivet bottom-2 left-2" aria-hidden="true" />
@@ -126,16 +153,24 @@ function Index() {
 
           <div className="flex flex-col items-center">
             <Crest />
-            <h1 id="fitquest-title" className="pixel-title mt-5 text-gold">FitQuest</h1>
-            <p className="mt-5 max-w-md text-[10px] leading-[1.9] text-ink">Every rep is a quest. Forge your hero.</p>
+            <h1 id="fitquest-title" className="pixel-title mt-5 text-gold">
+              FitQuest
+            </h1>
+            <p className="mt-5 max-w-md text-[10px] leading-[1.9] text-ink">
+              Every rep is a quest. Forge your hero.
+            </p>
 
             <div className="mt-8 flex w-full max-w-[340px] flex-col gap-[18px]">
               {APP_CONFIG.apkUrl ? (
                 <Button asChild variant="fitquest" onClick={vibrate}>
-                  <a href={APP_CONFIG.apkUrl} download>Download for Android</a>
+                  <a href={APP_CONFIG.apkUrl} download>
+                    Download for Android
+                  </a>
                 </Button>
               ) : (
-                <Button variant="fitquest" disabled>Android build coming soon</Button>
+                <Button variant="fitquest" disabled>
+                  Android build coming soon
+                </Button>
               )}
               {APP_CONFIG.webUrl ? (
                 <Button asChild variant="fitquest-secondary" onClick={vibrate}>
@@ -151,7 +186,9 @@ function Index() {
               </p>
             ) : null}
 
-            <p className="mt-7 text-[9px] text-frost">Version {APP_CONFIG.version} ({APP_CONFIG.size})</p>
+            <p className="mt-7 text-[9px] text-frost">
+              Version {APP_CONFIG.version} ({APP_CONFIG.size})
+            </p>
           </div>
         </section>
 
@@ -159,8 +196,13 @@ function Index() {
           <SectionHeading>Install in three steps</SectionHeading>
           <div id="install-title" className="grid gap-3">
             {installSteps.map((step, index) => (
-              <article key={step.title} className="grid grid-cols-[32px_1fr] gap-4 border-2 border-line bg-panel p-[14px]">
-                <span className="number-badge flex h-8 w-8 items-center justify-center bg-gold text-[11px] text-panel">{index + 1}</span>
+              <article
+                key={step.title}
+                className="grid grid-cols-[32px_1fr] gap-4 border-2 border-line bg-panel p-[14px]"
+              >
+                <span className="number-badge flex h-8 w-8 items-center justify-center bg-gold text-[11px] text-panel">
+                  {index + 1}
+                </span>
                 <div>
                   <h3 className="text-[11px] leading-[1.6] text-ink">{step.title}</h3>
                   <p className="mt-2 text-muted-foreground">{step.text}</p>
@@ -172,9 +214,15 @@ function Index() {
 
         <section className="mt-12" aria-labelledby="features-title">
           <SectionHeading>What waits inside</SectionHeading>
-          <div id="features-title" className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3">
+          <div
+            id="features-title"
+            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3"
+          >
             {features.map((feature) => (
-              <article key={feature.title} className={`border-2 border-line border-t-[6px] bg-panel p-[14px] ${feature.accent}`}>
+              <article
+                key={feature.title}
+                className={`border-2 border-line border-t-[6px] bg-panel p-[14px] ${feature.accent}`}
+              >
                 <h3 className="text-[11px] leading-[1.6]">{feature.title}</h3>
                 <p className="mt-3 text-muted-foreground">{feature.text}</p>
               </article>
@@ -185,11 +233,22 @@ function Index() {
         <section className="mt-12" aria-labelledby="checksum-title">
           <SectionHeading>Check your download</SectionHeading>
           <div id="checksum-title">
-            <p className="text-ink">Compare this SHA-256 checksum with your file to confirm it is the one we published.</p>
-            <div className="mt-4 overflow-x-auto whitespace-nowrap border-2 border-line bg-deep px-4 py-3 text-frost" tabIndex={0} aria-label="SHA-256 checksum">
+            <p className="text-ink">
+              Compare this SHA-256 checksum with your file to confirm it is the one we published.
+            </p>
+            <div
+              className="mt-4 overflow-x-auto whitespace-nowrap border-2 border-line bg-deep px-4 py-3 text-frost"
+              tabIndex={0}
+              aria-label="SHA-256 checksum"
+            >
               {checksum}
             </div>
-            <Button className="mt-4 w-full sm:w-auto" variant="fitquest" disabled={!APP_CONFIG.sha256} onClick={copyChecksum}>
+            <Button
+              className="mt-4 w-full sm:w-auto"
+              variant="fitquest"
+              disabled={!APP_CONFIG.sha256}
+              onClick={copyChecksum}
+            >
               {copied ? "Copied" : "Copy checksum"}
             </Button>
           </div>
@@ -202,8 +261,12 @@ function Index() {
               <details key={item.question} className="group bg-panel">
                 <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 px-[14px] py-3 text-gold focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-frost [&::-webkit-details-marker]:hidden">
                   <span>{item.question}</span>
-                  <span className="text-frost group-open:hidden" aria-hidden="true">+</span>
-                  <span className="hidden text-frost group-open:inline" aria-hidden="true">−</span>
+                  <span className="text-frost group-open:hidden" aria-hidden="true">
+                    +
+                  </span>
+                  <span className="hidden text-frost group-open:inline" aria-hidden="true">
+                    −
+                  </span>
                 </summary>
                 <p className="px-[14px] pb-4 text-muted-foreground">{item.answer}</p>
               </details>
