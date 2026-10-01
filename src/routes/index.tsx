@@ -168,7 +168,7 @@ function Index() {
                   </a>
                 </Button>
               ) : (
-                <Button variant="fitquest" disabled>
+                <Button className="whitespace-normal" variant="fitquest" disabled>
                   Android build coming soon
                 </Button>
               )}
