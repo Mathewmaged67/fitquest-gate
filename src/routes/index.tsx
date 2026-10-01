@@ -131,14 +131,14 @@ function Index() {
 
             <div className="mt-8 flex w-full max-w-[340px] flex-col gap-[18px]">
               {APP_CONFIG.apkUrl ? (
-                <Button asChild onClick={vibrate}>
+                <Button asChild variant="fitquest" onClick={vibrate}>
                   <a href={APP_CONFIG.apkUrl} download>Download for Android</a>
                 </Button>
               ) : (
-                <Button disabled>Android build coming soon</Button>
+                <Button variant="fitquest" disabled>Android build coming soon</Button>
               )}
               {APP_CONFIG.webUrl ? (
-                <Button asChild variant="secondary" onClick={vibrate}>
+                <Button asChild variant="fitquest-secondary" onClick={vibrate}>
                   <a href={APP_CONFIG.webUrl}>Play in browser</a>
                 </Button>
               ) : null}
@@ -189,7 +189,7 @@ function Index() {
             <div className="mt-4 overflow-x-auto whitespace-nowrap border-2 border-line bg-deep px-4 py-3 text-frost" tabIndex={0} aria-label="SHA-256 checksum">
               {checksum}
             </div>
-            <Button className="mt-4 w-full sm:w-auto" disabled={!APP_CONFIG.sha256} onClick={copyChecksum}>
+            <Button className="mt-4 w-full sm:w-auto" variant="fitquest" disabled={!APP_CONFIG.sha256} onClick={copyChecksum}>
               {copied ? "Copied" : "Copy checksum"}
             </Button>
           </div>
