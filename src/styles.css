@@ -214,6 +214,27 @@
   box-shadow: 3px 3px 0 var(--ridge);
 }
 
+@utility stat-gem {
+  display: block;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px currentColor;
+  animation: gem-pulse 2.5s ease-in-out infinite;
+}
+
+@utility pixel-glyph {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  image-rendering: pixelated;
+}
+
 @utility pixel-button {
   border-radius: 0;
   cursor: pointer;
@@ -285,6 +306,29 @@
   }
 }
 
+@utility xp-bar-fill {
+  animation: xp-grow 2.5s ease-out forwards;
+}
+
+@keyframes xp-grow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 35%;
+  }
+}
+
+@keyframes gem-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 4px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .torch-flame {
     animation: none;
@@ -292,5 +336,14 @@
 
   .pixel-button {
     transition: none;
+  }
+
+  .xp-bar-fill {
+    animation: none;
+    width: 35%;
+  }
+
+  .stat-gem {
+    animation: none;
   }
 }

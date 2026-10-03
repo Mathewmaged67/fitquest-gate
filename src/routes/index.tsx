@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { APP_CONFIG } from "@/config";
 
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
+
 const installSteps = [
   {
     title: "Download the APK",
@@ -22,24 +26,70 @@ const installSteps = [
 const features = [
   {
     title: "Train",
-    text: "Every set you log pays XP, gold, and stats.",
+    text: "Log sets, track PRs, and earn XP and gold for every session you finish.",
     accent: "border-strength text-strength",
+    icon: "sword",
   },
   {
     title: "Eat",
-    text: "Log meals, hit your macros, and gain vitality.",
+    text: "Hit your macros, log meals, and watch your Vitality climb day by day.",
     accent: "border-vitality text-vitality",
+    icon: "apple",
   },
   {
     title: "Quest",
-    text: "Daily, weekly, and epic objectives to claim.",
+    text: "Daily, weekly, and epic objectives — some paths are locked to your class.",
     accent: "border-agility text-agility",
+    icon: "scroll_text",
   },
   {
     title: "Loot",
-    text: "Class gear sets and potion buffs for your next session.",
+    text: "Equip gear, brew potions, and build a loadout that boosts your stats.",
     accent: "border-stamina text-stamina",
+    icon: "backpack",
   },
+] as const;
+
+const classCards = [
+  {
+    name: "Warrior",
+    tagline: "Heavy iron. Raw strength.",
+    accent: "border-strength text-strength",
+    stat: "STR",
+  },
+  {
+    name: "Mage",
+    tagline: "Flexibility and focus.",
+    accent: "border-stamina text-stamina",
+    stat: "STA",
+  },
+  {
+    name: "Ranger",
+    tagline: "Distance and speed.",
+    accent: "border-agility text-agility",
+    stat: "AGI",
+  },
+  {
+    name: "Paladin",
+    tagline: "Balance in all things.",
+    accent: "border-vitality text-vitality",
+    stat: "VIT",
+  },
+] as const;
+
+const statGems = [
+  { label: "STR", color: "bg-strength" },
+  { label: "STA", color: "bg-stamina" },
+  { label: "VIT", color: "bg-vitality" },
+  { label: "AGI", color: "bg-agility" },
+] as const;
+
+const numbers = [
+  { value: "41", label: "Quests" },
+  { value: "42", label: "Gear" },
+  { value: "7", label: "Potions" },
+  { value: "46", label: "Exercises" },
+  { value: "6", label: "Themes" },
 ] as const;
 
 const questions = [
@@ -57,21 +107,37 @@ const questions = [
     question: "Will it update itself?",
     answer: "Not yet. Come back to this page for new versions.",
   },
+  {
+    question: "Is my progress saved?",
+    answer:
+      "Yes. Your character, workouts, nutrition, quests, and gear sync to the cloud automatically when you sign in.",
+  },
+  {
+    question: "Can I change how it looks?",
+    answer:
+      "The app ships with multiple colour themes and lets you build your own custom palette from scratch.",
+  },
 ] as const;
+
+/* ------------------------------------------------------------------ */
+/*  Route                                                              */
+/* ------------------------------------------------------------------ */
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FitQuest: download the app" },
+      { title: "FitQuest — Turn every workout into a quest" },
       {
         name: "description",
-        content: "Download FitQuest for Android and turn every workout into a pixel-art RPG quest.",
+        content:
+          "Download FitQuest for Android — the pixel-art fitness RPG where every rep earns XP, every meal fuels your stats, and every habit forges a hero.",
       },
       { name: "theme-color", content: "#002029" },
-      { property: "og:title", content: "FitQuest: download the app" },
+      { property: "og:title", content: "FitQuest — Turn every workout into a quest" },
       {
         property: "og:description",
-        content: "Download FitQuest for Android and turn every workout into a pixel-art RPG quest.",
+        content:
+          "Download FitQuest for Android — the pixel-art fitness RPG where every rep earns XP, every meal fuels your stats, and every habit forges a hero.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -82,25 +148,24 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/* ------------------------------------------------------------------ */
+/*  Pixel-art SVG components                                           */
+/* ------------------------------------------------------------------ */
+
 function vibrate() {
   navigator.vibrate?.(12);
 }
 
-function Crest() {
+function PixelGlyph({ name, className = "h-8 w-8" }: { name: string; className?: string }) {
   return (
-    <svg className="h-24 w-24" viewBox="0 0 16 16" shapeRendering="crispEdges" aria-hidden="true">
-      <rect x="1" y="8" width="2" height="6" fill="#71717a" />
-      <rect x="3" y="9" width="1" height="4" fill="#94a3b8" />
-      <rect x="4" y="10" width="8" height="2" fill="#94a3b8" />
-      <rect x="12" y="9" width="1" height="4" fill="#94a3b8" />
-      <rect x="13" y="8" width="2" height="6" fill="#71717a" />
-      <rect x="7" y="0" width="2" height="1" fill="#f1faee" />
-      <rect x="7" y="1" width="1" height="8" fill="#ffffff" />
-      <rect x="8" y="1" width="1" height="8" fill="#a8dadc" />
-      <rect x="5" y="9" width="6" height="1" fill="#ffc300" />
-      <rect x="7" y="10" width="2" height="3" fill="#b38900" />
-      <rect x="7" y="13" width="2" height="1" fill="#ffc300" />
-    </svg>
+    <span
+      className={`pixel-glyph ${className}`}
+      style={{
+        WebkitMaskImage: `url(/glyphs/${name}.png)`,
+        maskImage: `url(/glyphs/${name}.png)`,
+      }}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -122,6 +187,20 @@ function SectionHeading({ children }: { children: string }) {
   );
 }
 
+function GoldDivider() {
+  return (
+    <div className="flex items-center justify-center gap-2 py-1" aria-hidden="true">
+      <span className="h-[2px] w-8 bg-gold/30" />
+      <span className="h-2 w-2 rotate-45 bg-gold/50" />
+      <span className="h-[2px] w-8 bg-gold/30" />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
 function Index() {
   const [copied, setCopied] = useState(false);
   const [isAppleMobile, setIsAppleMobile] = useState(false);
@@ -140,6 +219,7 @@ function Index() {
   return (
     <main className="min-h-screen overflow-x-hidden px-4 py-8 sm:py-12">
       <div className="mx-auto w-full max-w-[720px]">
+        {/* ── Hero / Guild Gate ── */}
         <section
           className="guild-gate relative px-5 py-12 text-center sm:px-10 sm:py-14"
           aria-labelledby="fitquest-title"
@@ -152,13 +232,31 @@ function Index() {
           <Torch side="right" />
 
           <div className="flex flex-col items-center">
-            <Crest />
+            <img
+              src="/app-icon.png"
+              alt="FitQuest"
+              className="h-24 w-24 rounded-2xl border-2 border-gold shadow-[0_0_24px_rgba(255,195,0,0.35)] object-contain"
+            />
             <h1 id="fitquest-title" className="pixel-title mt-5 text-gold">
               FitQuest
             </h1>
             <p className="mt-5 max-w-md text-[10px] leading-[1.9] text-ink">
               Every rep is a quest. Forge your hero.
             </p>
+            <p className="mt-3 max-w-sm text-[9px] leading-[1.8] text-frost">
+              The pixel-art fitness RPG where your workouts, meals, and habits
+              build a hero only you can create.
+            </p>
+
+            {/* Stat gems */}
+            <div className="mt-6 flex items-center gap-4" aria-label="Core stats">
+              {statGems.map((gem) => (
+                <div key={gem.label} className="flex flex-col items-center gap-[6px]">
+                  <span className={`stat-gem ${gem.color}`} aria-hidden="true" />
+                  <span className="text-[8px] text-frost">{gem.label}</span>
+                </div>
+              ))}
+            </div>
 
             <div className="mt-8 flex w-full max-w-[340px] flex-col gap-[18px]">
               {APP_CONFIG.apkUrl ? (
@@ -192,6 +290,98 @@ function Index() {
           </div>
         </section>
 
+        {/* ── Tagline Banner ── */}
+        <section className="mt-14 text-center">
+          <p className="text-[11px] leading-[2] text-ink">
+            Your gym. Your nutrition. Your quest line.
+          </p>
+          <p className="mt-1 text-[9px] text-frost">
+            One app that turns all of it into an RPG you actually want to grind.
+          </p>
+          <div className="mt-4">
+            <GoldDivider />
+          </div>
+        </section>
+
+        {/* ── Features ── */}
+        <section className="mt-10" aria-labelledby="features-title">
+          <SectionHeading>What waits inside</SectionHeading>
+          <div
+            id="features-title"
+            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3"
+          >
+            {features.map((feature) => (
+              <article
+                key={feature.title}
+                className={`border-2 border-line border-t-[6px] bg-panel p-[14px] ${feature.accent}`}
+              >
+                <div className="mb-2 opacity-80">
+                  <PixelGlyph name={feature.icon} />
+                </div>
+                <h3 className="text-[11px] leading-[1.6]">{feature.title}</h3>
+                <p className="mt-3 text-muted-foreground">{feature.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Choose Your Class ── */}
+        <section className="mt-12" aria-labelledby="class-title">
+          <SectionHeading>Choose your path</SectionHeading>
+          <p className="mb-4 text-muted-foreground">
+            Pick a class during onboarding. It shapes your quests, your gear, and your journey.
+          </p>
+          <div id="class-title" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {classCards.map((cls) => (
+              <div
+                key={cls.name}
+                className={`border-2 border-line border-l-[5px] bg-panel p-3 ${cls.accent}`}
+              >
+                <span className="text-[11px]">{cls.name}</span>
+                <p className="mt-2 text-[8px] leading-[1.8] text-muted-foreground">
+                  {cls.tagline}
+                </p>
+                <span className="mt-2 inline-block text-[8px] opacity-50">{cls.stat}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Numbers Strip ── */}
+        <section className="mt-12" aria-labelledby="numbers-title">
+          <SectionHeading>By the numbers</SectionHeading>
+          <div id="numbers-title" className="flex flex-wrap justify-center gap-3">
+            {numbers.map((item) => (
+              <div
+                key={item.label}
+                className="flex min-w-[100px] flex-1 flex-col items-center border-2 border-line bg-panel py-4"
+              >
+                <span className="text-[18px] leading-none text-gold">{item.value}</span>
+                <span className="mt-2 text-[8px] text-frost">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Progression Teaser ── */}
+        <section className="mt-12 text-center">
+          <div className="border-2 border-line bg-panel px-5 py-8 sm:px-10">
+            <p className="text-[11px] text-gold">Level 1 is just the beginning</p>
+            <div className="mx-auto mt-4 max-w-xs">
+              <div className="h-3 w-full border-2 border-line bg-deep">
+                <div className="xp-bar-fill h-full bg-gold" />
+              </div>
+            </div>
+            <p className="mt-4 text-[9px] leading-[1.8] text-frost">
+              Every workout. Every meal. Every quest claimed. It all stacks.
+            </p>
+            <p className="mt-1 text-[9px] text-muted-foreground">
+              How far can you push it?
+            </p>
+          </div>
+        </section>
+
+        {/* ── Install Steps ── */}
         <section className="mt-14" aria-labelledby="install-title">
           <SectionHeading>Install in three steps</SectionHeading>
           <div id="install-title" className="grid gap-3">
@@ -212,24 +402,7 @@ function Index() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="features-title">
-          <SectionHeading>What waits inside</SectionHeading>
-          <div
-            id="features-title"
-            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3"
-          >
-            {features.map((feature) => (
-              <article
-                key={feature.title}
-                className={`border-2 border-line border-t-[6px] bg-panel p-[14px] ${feature.accent}`}
-              >
-                <h3 className="text-[11px] leading-[1.6]">{feature.title}</h3>
-                <p className="mt-3 text-muted-foreground">{feature.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
+        {/* ── Checksum ── */}
         <section className="mt-12" aria-labelledby="checksum-title">
           <SectionHeading>Check your download</SectionHeading>
           <div id="checksum-title">
@@ -254,6 +427,7 @@ function Index() {
           </div>
         </section>
 
+        {/* ── FAQ ── */}
         <section className="mt-12" aria-labelledby="questions-title">
           <SectionHeading>Questions</SectionHeading>
           <div id="questions-title" className="divide-y-2 divide-line border-y-2 border-line">
@@ -274,8 +448,35 @@ function Index() {
           </div>
         </section>
 
+        {/* ── Bottom CTA ── */}
+        <section className="mt-14 text-center">
+          <div className="border-2 border-gold bg-panel px-5 py-10 sm:px-10">
+            <p className="text-[13px] leading-[1.7] text-gold">Ready to begin?</p>
+            <p className="mt-3 text-[9px] text-frost">
+              Your quest board is waiting. Download FitQuest and create your hero.
+            </p>
+            <div className="mx-auto mt-6 max-w-[300px]">
+              {APP_CONFIG.apkUrl ? (
+                <Button asChild variant="fitquest" className="w-full" onClick={vibrate}>
+                  <a href={APP_CONFIG.apkUrl} download>
+                    Download for Android
+                  </a>
+                </Button>
+              ) : (
+                <Button className="w-full whitespace-normal" variant="fitquest" disabled>
+                  Android build coming soon
+                </Button>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Footer ── */}
         <footer className="mt-14 border-t-2 border-dashed border-line py-7 text-center text-[9px] text-frost">
-          FitQuest is an indie project built by one adventurer.
+          <p>FitQuest is an indie project built by one adventurer.</p>
+          <p className="mt-2 text-[8px] text-frost/50">
+            React Native · Expo · TypeScript · Neon Postgres
+          </p>
         </footer>
       </div>
     </main>
